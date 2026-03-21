@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>筆順練習 — Traditional Chinese Stroke Order</title>
+  <meta name="description" content="Learn Traditional Chinese character stroke order with interactive animations and quiz mode. 中國語 번체 한자 획순 학습 앱." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet" />
+
+  <!-- Hanzi Writer -->
+  <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+
+  <!-- App Styles -->
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <!-- Theme Toggle -->
+  <button id="theme-toggle" class="btn btn--ghost theme-toggle" aria-label="Toggle theme" title="Toggle light/dark mode">
+    🌙
+  </button>
+
+  <div class="app">
+    <!-- Header -->
+    <header class="header fade-in">
+      <h1 class="header__title">筆順練習</h1>
+      <p class="header__subtitle">번체 한자를 입력하면 획순을 애니메이션으로 보여줍니다</p>
+    </header>
+
+    <!-- Input Section -->
+    <section class="card input-section fade-in" style="animation-delay: 0.1s">
+      <label class="input-label" for="char-input">한자 입력 (繁體中文)</label>
+      <div class="input-group">
+        <input
+          id="char-input"
+          class="input-field"
+          type="text"
+          placeholder="例：學 書 龍"
+          maxlength="8"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <button id="btn-search" class="btn btn--primary" title="획순 보기">
+          ▶ 보기
+        </button>
+      </div>
+    </section>
+
+    <!-- Writer Display -->
+    <section class="card writer-section fade-in" style="animation-delay: 0.2s">
+      <!-- Placeholder shown when no character is loaded -->
+      <div id="placeholder" class="placeholder">
+        <div class="placeholder__icon">✍️</div>
+        <p class="placeholder__text">위에 번체 한자를 입력하고 <strong>보기</strong>를 눌러 획순 애니메이션을 확인하세요</p>
+      </div>
+
+      <!-- Character rendering area -->
+      <div id="writer-container" class="writer-container hidden"></div>
+
+      <!-- Controls -->
+      <div id="controls" class="controls hidden">
+        <div class="controls__group">
+          <button id="btn-animate" class="btn btn--secondary btn--icon" title="획순 애니메이션 재생">
+            ▶
+          </button>
+          <button id="btn-loop" class="btn btn--secondary btn--icon" title="반복 재생">
+            🔁
+          </button>
+          <div class="controls__divider"></div>
+          <button id="btn-quiz" class="btn btn--secondary btn--icon" title="퀴즈 모드">
+            ✏️
+          </button>
+        </div>
+
+        <div class="controls__group">
+          <div class="speed-control">
+            <span class="speed-control__label">🐢</span>
+            <input id="speed-slider" class="speed-slider" type="range" min="0.5" max="5" step="0.5" value="1" />
+            <span class="speed-control__label" id="speed-value">1×</span>
+            <span class="speed-control__label">🐇</span>
+          </div>
+        </div>
+
+        <div class="controls__group">
+          <button id="btn-radical" class="btn btn--secondary btn--icon" title="부수(部首) 하이라이트">
+            部
+          </button>
+        </div>
+      </div>
+
+      <!-- Quiz feedback -->
+      <div id="quiz-feedback" class="quiz-feedback"></div>
+    </section>
+
+    <!-- Info Panel -->
+    <section id="info-panel" class="card info-panel hidden fade-in" style="animation-delay: 0.3s">
+      <div class="info-item">
+        <span id="info-char" class="info-item__value">—</span>
+        <span class="info-item__label">文字</span>
+      </div>
+      <div class="info-item">
+        <span id="info-strokes" class="info-item__value">—</span>
+        <span class="info-item__label">획수</span>
+      </div>
+      <div class="info-item">
+        <span id="info-radical" class="info-item__value">—</span>
+        <span class="info-item__label">부수</span>
+      </div>
+      <div class="info-item">
+        <span id="info-status" class="info-item__value">—</span>
+        <span class="info-item__label">상태</span>
+      </div>
+    </section>
+  </div>
+
+  <!-- Toast notifications -->
+  <div id="toast" class="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
