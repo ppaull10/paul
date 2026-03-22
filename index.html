@@ -6,6 +6,13 @@
   <title>筆順練習 — Traditional Chinese Stroke Order</title>
   <meta name="description" content="Learn Traditional Chinese character stroke order with interactive animations and quiz mode. 中國語 번체 한자 획순 학습 앱." />
 
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#4f46e5" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -69,7 +76,6 @@
           <button id="btn-loop" class="btn btn--secondary btn--icon" title="반복 재생">
             🔁
           </button>
-
         </div>
 
         <div class="controls__group">
@@ -87,7 +93,6 @@
           </button>
         </div>
       </div>
-
 
     </section>
 
@@ -116,5 +121,17 @@
   <div id="toast" class="toast"></div>
 
   <script src="app.js"></script>
+
+  <!-- Register Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('SW registered:', reg.scope))
+          .catch(err => console.warn('SW registration failed:', err));
+      });
+    }
+  </script>
 </body>
 </html>
+
