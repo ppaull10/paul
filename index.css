@@ -655,6 +655,88 @@ body::before {
   }
 }
 
+/* --- Tablet --- */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .app {
+    max-width: 960px;
+  }
+
+  .writer-box {
+    width: 220px;
+    height: 220px;
+  }
+
+  .info-panel {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* --- Landscape Mode --- */
+@media (orientation: landscape) and (max-height: 500px) {
+  .header {
+    padding: var(--space-sm) 0;
+  }
+
+  .header__title {
+    font-size: 1.4rem;
+  }
+
+  .header__subtitle {
+    display: none;
+  }
+
+  .app {
+    padding: var(--space-sm) var(--space-lg) var(--space-lg);
+    gap: var(--space-md);
+  }
+
+  .card {
+    padding: var(--space-md);
+  }
+
+  .writer-section {
+    gap: var(--space-md);
+  }
+
+  .writer-box {
+    width: 130px;
+    height: 130px;
+  }
+
+  .placeholder {
+    padding: var(--space-lg);
+  }
+
+  .placeholder__icon {
+    font-size: 2rem;
+  }
+
+  .info-panel {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-sm);
+  }
+
+  .info-item {
+    padding: var(--space-sm);
+  }
+}
+
+/* --- Tablet Landscape --- */
+@media (orientation: landscape) and (min-height: 501px) and (min-width: 768px) {
+  .app {
+    max-width: 1100px;
+  }
+
+  .writer-box {
+    width: 200px;
+    height: 200px;
+  }
+
+  .info-panel {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 /* --- Utility --- */
 .sr-only {
   position: absolute;
