@@ -3,19 +3,20 @@
  * Caches core assets for offline use
  */
 
-const CACHE_NAME = 'bisun-v1';
+const CACHE_NAME = 'bisun-v2';
 
+// Only precache LOCAL files (external CDN will be cached at runtime)
 const PRECACHE_URLS = [
   './',
   './index.html',
   './index.css',
   './app.js',
   './manifest.json',
-  'https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Outfit:wght@600;700&display=swap'
+  './icons/icon-192.png',
+  './icons/icon-512.png'
 ];
 
-// Install — precache core assets
+// Install — precache local assets only
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
