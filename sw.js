@@ -3,7 +3,7 @@
  * Caches core assets for offline use
  */
 
-const CACHE_NAME = 'bisun-v2';
+const CACHE_NAME = 'bisun-v3';
 
 // Only precache LOCAL files (external CDN will be cached at runtime)
 const PRECACHE_URLS = [
@@ -11,7 +11,6 @@ const PRECACHE_URLS = [
   './index.html',
   './index.css',
   './app.js',
-  './manifest.json',
   './icons/icon-192.png',
   './icons/icon-512.png'
 ];
