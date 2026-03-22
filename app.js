@@ -1,6 +1,6 @@
 /**
  * 筆順練習 — Stroke Order App
- * Traditional Chinese character stroke order animation & quiz
+ * Traditional Chinese character stroke order animation
  */
 
 (function () {
@@ -16,12 +16,12 @@
 
   const btnAnimate    = document.getElementById('btn-animate');
   const btnLoop       = document.getElementById('btn-loop');
-  const btnQuiz       = document.getElementById('btn-quiz');
+
   const btnRadical    = document.getElementById('btn-radical');
   const speedSlider   = document.getElementById('speed-slider');
   const speedValue    = document.getElementById('speed-value');
   const themeToggle   = document.getElementById('theme-toggle');
-  const quizFeedback  = document.getElementById('quiz-feedback');
+
   const toast         = document.getElementById('toast');
 
   const infoChar      = document.getElementById('info-char');
@@ -33,7 +33,7 @@
   let writers = [];           // HanziWriter instances
   let currentChars = '';
   let isLooping = false;
-  let isQuizMode = false;
+
   let showRadical = false;
   let animSpeed = 1;
 
@@ -48,7 +48,7 @@
 
   themeToggle.addEventListener('click', () => {
     const current = document.documentElement.getAttribute('data-theme');
-    const next = current === 'dark' ? 'light' : 'dark';
+    const next = current === 'light' ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
     themeToggle.textContent = next === 'light' ? '☀️' : '🌙';
@@ -79,15 +79,7 @@
     toast._timer = setTimeout(() => toast.classList.remove('show'), 3000);
   }
 
-  /** Set quiz feedback text */
-  function setQuizFeedback(text, type) {
-    quizFeedback.textContent = text;
-    quizFeedback.className = 'quiz-feedback visible' + (type ? ` quiz-feedback--${type}` : '');
-    clearTimeout(quizFeedback._timer);
-    quizFeedback._timer = setTimeout(() => {
-      quizFeedback.classList.remove('visible');
-    }, 2000);
-  }
+
 
   // ─── Writer Size ──────────────────────────────────
   function getWriterSize() {
@@ -205,6 +197,11 @@
 
   // ─── Animation ────────────────────────────────────
   function animateAll() {
+    if (!currentChars) return;
+
+    // Recreate writers with current speed settings
+    loadCharacters(currentChars);
+
     if (writers.length === 0) return;
 
     // Reset status
@@ -235,45 +232,7 @@
     animateAt(0);
   }
 
-  // ─── Quiz Mode ────────────────────────────────────
-  function startQuiz() {
-    if (writers.length === 0) return;
 
-    isQuizMode = true;
-    btnQuiz.classList.add('active');
-    infoStatus.textContent = '퀴즈 모드';
-
-    writers.forEach(({ writer, element }, index) => {
-      element.classList.add('active');
-      writer.quiz({
-        onMistake: (strokeData) => {
-          setQuizFeedback(`오답! 다시 시도해 주세요 (획 ${strokeData.strokeNum + 1})`, 'mistake');
-        },
-        onCorrectStroke: (strokeData) => {
-          setQuizFeedback(`정답! 획 ${strokeData.strokeNum + 1} ✓`, 'correct');
-        },
-        onComplete: (summaryData) => {
-          element.classList.remove('active');
-          const total = summaryData.totalMistakes;
-          if (total === 0) {
-            setQuizFeedback('완벽합니다! 🎉', 'correct');
-            showToast('모든 획을 정확히 작성했습니다!', 'success');
-          } else {
-            setQuizFeedback(`완료! 오답: ${total}회`, 'mistake');
-          }
-          infoStatus.textContent = '퀴즈 완료';
-        }
-      });
-    });
-  }
-
-  function stopQuiz() {
-    isQuizMode = false;
-    btnQuiz.classList.remove('active');
-    // Re-render characters
-    if (currentChars) loadCharacters(currentChars);
-    infoStatus.textContent = '준비됨';
-  }
 
   // ─── Event Listeners ──────────────────────────────
 
@@ -296,7 +255,6 @@
 
   // Animate
   btnAnimate.addEventListener('click', () => {
-    if (isQuizMode) stopQuiz();
     animateAll();
   });
 
@@ -312,26 +270,12 @@
     }
   });
 
-  // Quiz toggle
-  btnQuiz.addEventListener('click', () => {
-    if (isQuizMode) {
-      stopQuiz();
-    } else {
-      startQuiz();
-    }
-  });
+
 
   // Speed slider
   speedSlider.addEventListener('input', () => {
     animSpeed = parseFloat(speedSlider.value);
     speedValue.textContent = `${animSpeed}×`;
-
-    // Update existing writers
-    writers.forEach(({ writer }) => {
-      writer.updateDimensions({
-        strokeAnimationSpeed: animSpeed
-      });
-    });
   });
 
   // Radical toggle
